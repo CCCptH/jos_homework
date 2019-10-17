@@ -22,6 +22,7 @@ struct Command {
 };
 
 static struct Command commands[] = {
+	{ "backtrace", "", mon_backtrace},
 	{ "help", "Display this list of commands", mon_help },
 	{ "kerninfo", "Display information about the kernel", mon_kerninfo },
 };
@@ -60,6 +61,27 @@ int
 mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 {
 	// Your code here.
+	volatile uint32_t* ebp = (uint32_t*)read_ebp();
+	// uint32_t* esp = (uint32_t*)read_esp();
+	cprintf("Stack backtrace:\n");
+	while(ebp)
+	{
+		cprintf("ebp %x, eip %x args", ebp, ebp[1]);
+		cprintf(" %08x", ebp[2]);
+		cprintf(" %08x", ebp[3]);
+		cprintf(" %08x", ebp[4]);
+		cprintf(" %08x", ebp[5]);
+		cprintf(" %08x\n", ebp[6]);
+		// cprintf("----->  esp: %x", esp);
+		ebp = (uint32_t*) *ebp;
+		// esp = (uint32_t*) *esp;
+		
+		// cprintf("\n");
+		// cprintf("=====>  ebp: %x \n", ebp);
+		// cprintf("=====>  esp: %x \n", esp);
+		// cprintf("=====> *ebp: %x \n", *ebp);
+		// cprintf("=====> *esp: %x \n", *esp);
+	}
 	return 0;
 }
 

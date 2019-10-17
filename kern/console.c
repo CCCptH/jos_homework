@@ -163,8 +163,8 @@ static void
 cga_putc(int c)
 {
 	// if no attribute given, then use black on white
-	if (!(c & ~0xFF))
-		c |= 0x0700;
+	// if (!(c & ~0xFF))
+		c |= 0x0400;
 
 	switch (c & 0xff) {
 	case '\b':
