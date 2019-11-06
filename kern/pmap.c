@@ -267,7 +267,7 @@ page_init(void)
 		pages[i].pp_link = page_free_list;
 		page_free_list = &pages[i];
 	}
-	int med = (int)ROUNDUP(((char*)pages)+(sizeof(struct Page)*npages)-0xf0000000, PGSIZE)/PGSIZE;
+	int med = (int)ROUNDUP(PADDR(((char*)pages)+(sizeof(struct Page)*npages)), PGSIZE)/PGSIZE;
 	for(i=med; i<npages;i++) {
 		pages[i].pp_ref = 0;
 		pages[i].pp_link=page_free_list;
