@@ -1,5 +1,7 @@
 6828 decimal is 15254 octal!
 Physical memory: 66556K available, base = 640K, extended = 65532K
+initial boot_alloc
+kern_pgdir: 103fc
 npages: 16639
 page_init called
 page_init returned
