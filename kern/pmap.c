@@ -91,6 +91,7 @@ boot_alloc(uint32_t n)
 	if (!nextfree) {
 		extern char end[];
 		nextfree = ROUNDUP((char *) end, PGSIZE);
+		cprintf("initial boot_alloc\n");
 	}
 
 	// Allocate a chunk large enough to hold 'n' bytes, then update
@@ -138,6 +139,7 @@ mem_init(void)
 	//////////////////////////////////////////////////////////////////////
 	// create initial page directory.
 	kern_pgdir = (pde_t *) boot_alloc(PGSIZE);
+	cprintf("kern_pgdir: %x\n");
 	memset(kern_pgdir, 0, PGSIZE);
 
 	//////////////////////////////////////////////////////////////////////
@@ -267,11 +269,19 @@ page_init(void)
 		pages[i].pp_link = page_free_list;
 		page_free_list = &pages[i];
 	}
-	int med = (int)ROUNDUP(PADDR(((char*)pages)+(sizeof(struct Page)*npages)), PGSIZE)/PGSIZE;
-	for(i=med; i<npages;i++) {
+	for (i = IOPHYSMEM/PGSIZE;i < EXTPHYSMEM/PGSIZE;i++)
+	{
+		pages[i].pp_ref=1;
+	}
+	for (i = EXTPHYSMEM/PGSIZE;i<PADDR(boot_alloc(0))/PGSIZE;i++)
+	{
+		pages[i].pp_ref = 1;
+	}
+	for(i = PADDR(boot_alloc(0))/PGSIZE;i<npages;i++)
+	{
 		pages[i].pp_ref = 0;
-		pages[i].pp_link=page_free_list;
-		page_free_list=&pages[i];
+		pages[i].pp_link = page_free_list;
+		page_free_list = &pages[i];
 	}
 	cprintf("page_init returned\n");
 }
