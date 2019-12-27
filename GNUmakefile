@@ -62,15 +62,7 @@ QEMU := $(shell if which qemu > /dev/null; \
 endif
 
 # try to generate a unique GDB port
-<<<<<<< HEAD
-GDBPORT	:= $(shell expr `id -u` % 5000 + 26000)
-# QEMU's gdb stub command line changed in 0.11
-QEMUGDB = $(shell if $(QEMU) -nographic -help | grep -q '^-gdb'; \
-	then echo "-gdb tcp::$(GDBPORT)"; \
-	else echo "-s -p $(GDBPORT)"; fi)
-=======
 GDBPORT	:= $(shell expr `id -u` % 5000 + 25000)
->>>>>>> 71f35fea2e2cc04d927bce9244eaa8b5cb00eaf5
 
 CC	:= $(GCCPREFIX)gcc -pipe
 AS	:= $(GCCPREFIX)as
