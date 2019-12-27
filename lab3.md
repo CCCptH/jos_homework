@@ -44,7 +44,8 @@ lab3
 
 ```Cpp
 	env_free_list = NULL;
-	for (int i = NENV-1; i>=0; i--)
+	int i;
+    for (i = NENV-1; i>=0; i--)
 	{
 		envs[i].env_id = 0;
 		envs[i].env_status = ENV_FREE;
@@ -64,7 +65,7 @@ lab3
 ```Cpp
 	(p->pp_ref)++;
 	pde_t* page_dir = page2kva(p);
-	memcpy(page_dir, kern_pgdir, PGSIZE);
+	memmove(page_dir, kern_pgdir, PGSIZE);
 	e->env_pgdir = page_dir;
 ```
 
@@ -81,9 +82,10 @@ lab3
 ```Cpp
 	void* start = (void*)ROUNDDOWN((uint32_t)va, PGSIZE);
 	void* end = (void*)ROUNDUP((uint32_t)(va+len), PGSIZE);
-	struct PageInfo* p;
+	struct Page* p;
 	int ret = 0;
-	for (void* i = start; i<end; i+=PGSIZE)
+	void *i;
+    for (i = start; i<end; i+=PGSIZE)
 	{
 		p = page_alloc(0);
 		if (p == NULL)

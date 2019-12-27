@@ -190,7 +190,7 @@ env_setup_vm(struct Env *e)
 	// LAB 3: Your code here.
 	(p->pp_ref)++;
 	pde_t* page_dir = page2kva(p);
-	memcpy(page_dir, kern_pgdir, PGSIZE);
+	memmove(page_dir, kern_pgdir, PGSIZE);
 	e->env_pgdir = page_dir;
 	
 	// UVPT maps the env's own page table read-only.
