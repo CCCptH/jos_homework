@@ -116,9 +116,9 @@ env_init(void)
 {
 	// Set up envs array
 	// LAB 3: Your code here.
-
+	int i;
 	env_free_list = NULL;
-	for (int i = NENV-1; i>=0; i--)
+	for (i = NENV-1; i>=0; i--)
 	{
 		envs[i].env_id = 0;
 		envs[i].env_status = ENV_FREE;
@@ -282,9 +282,10 @@ region_alloc(struct Env *e, void *va, size_t len)
 	//   (Watch out for corner-cases!)
 	void* start = (void*)ROUNDDOWN((uint32_t)va, PGSIZE);
 	void* end = (void*)ROUNDUP((uint32_t)(va+len), PGSIZE);
-	struct PageInfo* p;
+	struct Page* p;
 	int ret = 0;
-	for (void* i = start; i<end; i+=PGSIZE)
+	void* i;
+	for (i = start; i<end; i+=PGSIZE)
 	{
 		p = page_alloc(0);
 		if (p == NULL)
