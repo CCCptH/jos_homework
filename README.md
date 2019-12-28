@@ -1,2 +1,1 @@
-# jos_homework
-a lot of bugs
+# MIT_JOS_2014

@@ -26,9 +26,9 @@ start:
   #   address line 20 is tied low, so that addresses higher than
   #   1MB wrap around to zero by default.  This code undoes this.
 seta20.1:
-  inb     $0x64,%al               # Wait for not busy  64h->keyboardcontroller in north bridge
-  testb   $0x2,%al                # 2nd bit is one? when zero, keyboard is not busy
-  jnz     seta20.1                # not zero then continues
+  inb     $0x64,%al               # Wait for not busy
+  testb   $0x2,%al
+  jnz     seta20.1
 
   movb    $0xd1,%al               # 0xd1 -> port 0x64
   outb    %al,$0x64
@@ -46,7 +46,7 @@ seta20.2:
   # identical to their physical addresses, so that the 
   # effective memory map does not change during the switch.
   lgdt    gdtdesc
-  movl    %cr0, %eax              #cr0 register bit where index 0 enable the protect mode
+  movl    %cr0, %eax
   orl     $CR0_PE_ON, %eax
   movl    %eax, %cr0
   
