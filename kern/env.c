@@ -321,7 +321,7 @@ region_alloc(struct Env *e, void *va, size_t len)
 //  - How might load_icode fail?  What might be wrong with the given input?
 //
 static void
-load_icode(struct Env *e, uint8_t *binary)
+load_icode(struct Env *e, uint8_t *binary, size_t size)
 {
 	// Hints:
 	//  Load each program segment into virtual memory
@@ -414,7 +414,7 @@ env_create(uint8_t *binary, size_t size, enum EnvType type)
         panic("env_create: %e\n", ret);
     }
 
-    load_icode(e, binary);
+    load_icode(e, binary, size);
     e->env_type = type;
 }
 
@@ -531,6 +531,7 @@ env_run(struct Env *e)
 	//	e->env_tf to sensible values.
 
 	// LAB 3: Your code here.
+	cprintf("env running \n!");
 	if(curenv && curenv->env_status == ENV_RUNNING)
     {
         curenv->env_status = ENV_RUNNABLE;
